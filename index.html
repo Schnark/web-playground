@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="utf-8">
+<title>Web Playground</title>
+<meta name="viewport" content="width=device-width; initial-scale=1.0;">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+<link rel="manifest" href="icons/manifest.json">
+<link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="icons/favicon.ico">
+<meta name="msapplication-config" content="icons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+<script>
+if (navigator.serviceWorker && !(navigator.mozApps && navigator.mozApps.installPackage)) {
+	navigator.serviceWorker.register('sw.js');
+}
+</script>
+<link rel="stylesheet" href="res/app.css">
+<script src="res/file.js"></script>
+<script src="res/playground.js"></script>
+<script src="res/console.js"></script>
+</head><body>
+<nav>
+<button id="button-meta" class="selected">Meta</button>
+<button id="button-html">HTML</button>
+<button id="button-css">CSS</button>
+<button id="button-js">JS</button>
+<button id="button-document">View</button>
+<button id="button-console">Console</button>
+</nav>
+<section id="meta">
+<label>Title:<br><input class="input-title"></label>
+<label>Language (code): <input class="input-lang"></label>
+<label><input class="input-jshead" type="checkbox"> Load JS in head</label>
+<label>Libraries (one per line):<br><textarea class="input-libs"></textarea></label>
+<button id="load-lib">Load file as library</button>
+<button id="open-html">Read HTML from file</button>
+<button id="save-html">Save HTML to file</button>
+<button id="open-css">Read CSS from file</button>
+<button id="save-css">Save CSS to file</button>
+<button id="open-js">Read JS from file</button>
+<button id="save-js">Save JS to file</button>
+<button id="empty-project" class="destructive">Start with empty project</button>
+</section>
+<section id="html" style="display: none;">
+<label>HTML (body only):<br><textarea class="input-html"></textarea></label>
+</section>
+<section id="css" style="display: none;">
+<label>CSS:<br><textarea class="input-css"></textarea></label>
+</section>
+<section id="js" style="display: none;">
+<label>JS:<br><textarea class="input-js"></textarea></label>
+</section>
+<section id="document" class="page-document" style="display: none;"><iframe></iframe></section>
+<section id="console" style="display: none;">
+<input id="console-input">
+<ul id="console-list"></ul>
+</section>
+<script src="res/app.js"></script>
+</body></html>

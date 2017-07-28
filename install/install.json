@@ -1,0 +1,20 @@
+{
+	"@comment": "Note that the code to transform these data into a webpage is in https://github.com/Schnark/schnark.github.io",
+	"title": {
+		"en": "Web Playground – App for Firefox OS",
+		"de": "Web Playground – App für Firefox OS"
+	},
+	"serviceworker": true,
+	"icon": "res/icon-128.png",
+	"screenshots": [
+		"1.png",
+		"2.png",
+		"3.png",
+		"4.png",
+		"5.png"
+	],
+	"desc": {
+		"en": ["This app allows you to develop small web projects."],
+		"de": ["Diese App ermöglicht es kleine Webprojekte zu entwickeln."]
+	}
+}
