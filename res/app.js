@@ -29,6 +29,22 @@ function showPage (id) {
 	buttons[id].className = 'selected';
 }
 
+function buildExamples (el, examples) {
+	examples.forEach(function (example) {
+		var li, a;
+		li = document.createElement('li');
+		a = document.createElement('a');
+		a.href = '#';
+		a.textContent = example.title;
+		a.addEventListener('click', function (e) {
+			e.preventDefault();
+			playground.loadExample(example);
+		});
+		li.appendChild(a);
+		el.appendChild(li);
+	});
+}
+
 function init () {
 	var input;
 
@@ -85,6 +101,8 @@ function init () {
 			input.value = '';
 		}
 	});
+
+	buildExamples(document.getElementById('examples'), Playground.examples);
 }
 
 init();

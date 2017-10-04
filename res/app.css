@@ -33,7 +33,7 @@ label {
 	display: block;
 }
 
-input {
+input:not([type="checkbox"]) {
 	width: 100%;
 }
 
@@ -46,6 +46,10 @@ label + button,
 button + label,
 button + button {
 	margin-top: 1em;
+}
+
+#examples {
+	line-height: 2;
 }
 
 nav button {

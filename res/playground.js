@@ -12,6 +12,10 @@ function escape (str) {
 		.replace(/"/g, '&quot;');
 }
 
+function clone (array) {
+	return JSON.parse(JSON.stringify(array));
+}
+
 function Playground (container, autosaveKey) {
 	this.container = container;
 	this.autosaveKey = autosaveKey;
@@ -73,6 +77,21 @@ Playground.prototype.autosave = function () {
 		} catch (e) {
 		}
 	}
+};
+
+Playground.prototype.loadExample = function (example) {
+	this.documentReady = false;
+	this.js = example.js || '';
+	this.css = example.css || '';
+	this.html = example.html || '';
+	this.meta = {
+		title: example.title,
+		lang: 'en',
+		libs: clone(example.libs || []),
+		jshead: false
+	};
+	this.meta.libs.push('console-shim.js');
+	this.initInputs();
 };
 
 Playground.prototype.buildLib = function (lib) {
