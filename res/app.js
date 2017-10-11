@@ -1,4 +1,4 @@
-/*global Playground, Console, file*/
+/*global Playground, file*/
 (function () {
 "use strict";
 
@@ -93,7 +93,6 @@ function init () {
 		playground.empty();
 	});
 
-	window.console = new Console(document.getElementById('console-list'));
 	input = document.getElementById('console-input');
 	input.addEventListener('keydown', function (e) {
 		if (e.keyCode === 13) {

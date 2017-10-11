@@ -19,7 +19,6 @@ if (navigator.serviceWorker && !(navigator.mozApps && navigator.mozApps.installP
 <link rel="stylesheet" href="res/app.css">
 <script src="res/file.js"></script>
 <script src="res/playground.js"></script>
-<script src="res/console.js"></script>
 <script src="res/examples.js"></script>
 </head><body>
 <nav>
@@ -56,7 +55,7 @@ if (navigator.serviceWorker && !(navigator.mozApps && navigator.mozApps.installP
 <label>JS:<br><textarea class="input-js"></textarea></label>
 </section>
 <section id="document" class="page-document" style="display: none;"><iframe mozallowfullscreen="true" webkitallowfullscreen="true" allowfullscreen="true"></iframe></section>
-<section id="console" style="display: none;">
+<section id="console" class="page-console" style="display: none;">
 <input id="console-input">
 <ul id="console-list"></ul>
 </section>

@@ -11,9 +11,9 @@ return [{
 		'</header>\n' +
 		'\n' +
 		'<nav><ul>\n' +
-		'<li>One</li>\n' +
-		'<li>Two</li>\n' +
-		'<li>Three</li>\n' +
+		'<li><a href="#one">One</a></li>\n' +
+		'<li><a href="#two">Two</a></li>\n' +
+		'<li><a href="#three">Three</a></li>\n' +
 		'</ul></nav>\n' +
 		'\n' +
 		'<article id="one">\n' +
@@ -215,6 +215,7 @@ return [{
 		'<li>a<sub>z</sub>: <span id="az"></span></li>\n' +
 		'<li>Proximity: <span id="prox"></span></li>\n' +
 		'<li>Light: <span id="light"></span></li>\n' +
+		'<li>On-/Offline: <span id="online">(not changed yet)</span></li>\n' +
 		'</ul>',
 	js:
 		'window.addEventListener(\'deviceorientation\', function (e) {\n' +
@@ -233,6 +234,12 @@ return [{
 		'});\n' +
 		'window.addEventListener(\'devicelight\', function (e) {\n' +
 		' document.getElementById(\'light\').textContent = e.value;\n' +
+		'});' +
+		'window.addEventListener(\'online\', function () {\n' +
+		' document.getElementById(\'online\').textContent = \'online\';\n' +
+		'});' +
+		'window.addEventListener(\'offline\', function () {\n' +
+		' document.getElementById(\'online\').textContent = \'offline\';\n' +
 		'});'
 }, {
 	title: 'getUserMedia',
@@ -287,14 +294,115 @@ return [{
 	js:
 		'var utterance = new SpeechSynthesisUtterance(\'Hello world\');\n' +
 		'speechSynthesis.speak(utterance);'
+}, {
+	title: 'XHR',
+	js:
+		'var xhr = new XMLHttpRequest();\n' +
+		'xhr.open(\'GET\', \'../manifest.webapp\');\n' +
+		'xhr.responseType = \'json\';\n' +
+		'xhr.onload = function () {\n' +
+		' alert(xhr.response.version);\n' +
+		'};\n' +
+		'xhr.onerror = function () {\n' +
+		' alert(\'Error\');\n' +
+		'};\n' +
+		'xhr.send();'
+}, {
+	title: '3D Transforms with Animation',
+	html:
+		'<div id="container">\n' +
+		'<ul id="carousel">\n' +
+		'<li id="a">🐧</li>\n' +
+		'<li id="b">🐈</li>\n' +
+		'<li id="c">🐘</li>\n' +
+		'<li id="d">🐕</li>\n' +
+		'<li id="e">🐄</li>\n' +
+		'<li id="f">🐒</li>\n' +
+		'</ul>\n' +
+		'</div>',
+	css:
+		'@keyframes rotate {\n' +
+		' from {\n' +
+		'  transform: rotateY(0deg);\n' +
+		' }\n' +
+		' to {\n' +
+		'  transform: rotateY(-360deg);\n' +
+		' }\n' +
+		'}\n' +
+		'\n' +
+		'#container {\n' +
+		' perspective: 1000px;\n' +
+		'}\n' +
+		'\n' +
+		'#carousel {\n' +
+		' diplay: block;\n' +
+		' width: 200px;\n' +
+		' height: 50px;\n' +
+		' margin: auto;\n' +
+		' animation: rotate 5s linear infinite;\n' +
+		' transform-style: preserve-3d;\n' +
+		'}\n' +
+		'\n' +
+		'#carousel li {\n' +
+		' display: inline-block;\n' +
+		' height: 50px;\n' +
+		' line-height: 50px;\n' +
+		' font-size: 30px;\n' +
+		' position: absolute;\n' +
+		' left: 50%;\n' +
+		'}\n' +
+		'\n' +
+		'#a {\n' +
+		' transform: translateZ(50px);\n' +
+		'}\n' +
+		'#b {\n' +
+		' transform: rotateY(60deg) translateZ(50px);\n' +
+		'}\n' +
+		'#c {\n' +
+		' transform: rotateY(120deg) translateZ(50px);\n' +
+		'}\n' +
+		'#d {\n' +
+		' transform: rotateY(180deg) translateZ(50px);\n' +
+		'}\n' +
+		'#e {\n' +
+		' transform: rotateY(240deg) translateZ(50px);\n' +
+		'}\n' +
+		'#f {\n' +
+		' transform: rotateY(300deg) translateZ(50px);\n' +
+		'}'
+}, {
+	title: 'Flexbox',
+	html:
+		'<ul>\n' +
+		'<li id="a">A</li>\n' +
+		'<li id="b">B</li>\n' +
+		'<li id="c">C</li>\n' +
+		'<li id="d">D</li>\n' +
+		'</ul>',
+	css:
+		'ul {\n' +
+		' display: flex;\n' +
+		' margin: 2px;\n' +
+		' border: 1px solid red;\n' +
+		' padding: 2px;\n' +
+		'}\n' +
+		'\n' +
+		'li {\n' +
+		' font-size: 20px;\n' +
+		' display: inline-block;\n' +
+		' margin: 2px;\n' +
+		' border: 1px solid green;\n' +
+		' padding: 2px;\n' +
+		'}\n' +
+		'\n' +
+		'#a, #c {\n' +
+		' flex-grow: 1;\n' +
+		'}\n' +
+		'#d {\n' +
+		' flex-grow: 2;\n' +
+		'}'
 /*}, {
-	title: 'XHR'
-	//TODO
-}, {
-	title: '3D Transforms'
-	//TODO
-}, {
-	title: 'Flex & Grid'
+	title: 'CSS Grid'
 	//TODO
 }, {
 	title: 'Writing Modes'

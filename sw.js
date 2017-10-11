@@ -2,12 +2,11 @@
 (function (worker) {
 "use strict";
 
-var VERSION = 'v1.1',
+var VERSION = 'v1.2',
 	FILES = [
 		'index.html',
 		'res/app.css',
 		'res/app.js',
-		'res/console.js',
 		'res/console-shim.js',
 		'res/examples.js',
 		'res/file.js',

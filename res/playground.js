@@ -12,6 +12,19 @@ function escape (str) {
 		.replace(/"/g, '&quot;');
 }
 
+function makeListItem (data, cls, isHtml) {
+	var html = String(data), li;
+	if (!isHtml) {
+		html = escape(html);
+	}
+	li = document.createElement('li');
+	if (cls) {
+		li.className = cls;
+	}
+	li.innerHTML = html;
+	return li;
+}
+
 function clone (array) {
 	return JSON.parse(JSON.stringify(array));
 }
@@ -262,17 +275,22 @@ Playground.prototype.updateDocument = function (html) {
 };
 
 Playground.prototype.initConsole = function () {
+	var console = this.container.getElementsByClassName('page-console')[0].getElementsByTagName('ul')[0];
 	window.addEventListener('message', function (e) {
-		console[e.data.method].apply(console, e.data.args);
+		if (e.data.clear) {
+			console.innerHTML = '';
+		} else {
+			console.appendChild(makeListItem(e.data.data, e.data.cls, e.data.isHtml));
+		}
 	});
 };
 
 Playground.prototype.execute = function (str) {
 	if (this.meta.libs.indexOf('console-shim.js') > -1) {
-		console.log('> ' + str);
 		this.getIframe().contentWindow.postMessage(str, '*');
 	} else {
-		console.log('Console not available');
+		this.container.getElementsByClassName('page-console')[0].getElementsByTagName('ul')[0]
+			.appendChild(makeListItem('Console not available'));
 	}
 };
 
