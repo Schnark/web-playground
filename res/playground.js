@@ -1,5 +1,5 @@
 /*global Playground: true*/
-/*global URL, Blob, console*/
+/*global URL, Blob*/
 Playground =
 (function () {
 "use strict";

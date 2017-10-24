@@ -214,6 +214,7 @@ return [{
 		'<li>a<sub>y</sub>: <span id="ay"></span></li>\n' +
 		'<li>a<sub>z</sub>: <span id="az"></span></li>\n' +
 		'<li>Proximity: <span id="prox"></span></li>\n' +
+		'<li>Near: <span id="near"></span></li>\n' +
 		'<li>Light: <span id="light"></span></li>\n' +
 		'<li>On-/Offline: <span id="online">(not changed yet)</span></li>\n' +
 		'</ul>',
@@ -231,6 +232,9 @@ return [{
 		'});\n' +
 		'window.addEventListener(\'deviceproximity\', function (e) {\n' +
 		' document.getElementById(\'prox\').textContent = e.value;\n' +
+		'});\n' +
+		'window.addEventListener(\'userproximity\', function (e) {\n' +
+		' document.getElementById(\'near\').textContent = e.near;\n' +
 		'});\n' +
 		'window.addEventListener(\'devicelight\', function (e) {\n' +
 		' document.getElementById(\'light\').textContent = e.value;\n' +
@@ -346,10 +350,11 @@ return [{
 		'#carousel li {\n' +
 		' display: inline-block;\n' +
 		' height: 50px;\n' +
+		' width: 40px;\n' +
 		' line-height: 50px;\n' +
 		' font-size: 30px;\n' +
 		' position: absolute;\n' +
-		' left: 50%;\n' +
+		' left: calc(50% - 20px);\n' +
 		'}\n' +
 		'\n' +
 		'#a {\n' +
