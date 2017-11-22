@@ -191,7 +191,7 @@ return [{
 		'\n' +
 		'bind(document.getElementById(\'pointer\'), [\n' +
 		' \'mousedown\', \'mousemove\', \'mouseup\',\n' +
-		' \'click\', \'dblclick\'\n' +
+		' \'click\', \'dblclick\', \'contextmenu\'\n' +
 		'], onMouse);\n' +
 		'bind(document.getElementById(\'pointer\'), [\n' +
 		' \'touchstart\', \'touchmove\', \'touchend\',\n' +

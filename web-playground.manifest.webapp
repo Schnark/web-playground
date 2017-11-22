@@ -1,8 +1,8 @@
 {
-	"version": "1.3",
+	"version": "1.4",
 	"name": "Web Playground",
 	"description": "Write small projects in web technologies",
-	"size": 24713,
+	"size": 24720,
 	"package_path": "http://localhost:8080/web-playground.zip",
 	"icons": {
 		"128": "/res/icon-128.png",
