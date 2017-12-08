@@ -107,9 +107,14 @@ iframe {
 }
 
 #console-list {
-	list-style-type: none;
 	margin-left: 0;
 	padding-left: 0;
+}
+
+#console-list li {
+	list-style-type: none;
+	padding: 2px;
+	border-bottom: 1px solid #777;
 }
 
 #console-list .error {
@@ -122,4 +127,14 @@ iframe {
 
 #console-list .info {
 	color: gray;
+}
+
+#console-list table {
+	border-collapse: collapse;
+}
+
+#console-list td,
+#console-list th {
+	border: 1px solid #777;
+	padding: 5px;
 }

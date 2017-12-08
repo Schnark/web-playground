@@ -1,5 +1,5 @@
 {
-	"version": "1.4",
+	"version": "1.5",
 	"name": "Web Playground",
 	"description": "Write small projects in web technologies",
 	"launch_path": "/index.html",

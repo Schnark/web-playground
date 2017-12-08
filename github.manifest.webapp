@@ -1,8 +1,8 @@
 {
-	"version": "1.4",
+	"version": "1.5",
 	"name": "Web Playground",
 	"description": "Write small projects in web technologies",
-	"size": 24720,
+	"size": 26191,
 	"package_path": "https://schnark.github.io/web-playground/web-playground.zip",
 	"icons": {
 		"128": "/res/icon-128.png",

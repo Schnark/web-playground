@@ -126,7 +126,7 @@ Playground.prototype.createDocumentHtml = function () {
 	html.push('<head>');
 	html.push('<meta charset="utf-8">');
 	html.push('<title>' + escape(this.meta.title) + '</title>');
-	html.push('<meta name="viewport" content="width=device-width; initial-scale=1.0">'); //seems to be ignored anyway
+	html.push('<meta name="viewport" content="width=device-width">');
 	html.push('<base href="' + escape(String(location.href).replace('index.html', 'res/')) + '" target="_blank">');
 	this.meta.libs.forEach(function (lib) {
 		html.push(this.buildLib(lib));
@@ -275,12 +275,23 @@ Playground.prototype.updateDocument = function (html) {
 };
 
 Playground.prototype.initConsole = function () {
-	var console = this.container.getElementsByClassName('page-console')[0].getElementsByTagName('ul')[0];
+	var console = this.container.getElementsByClassName('page-console')[0].getElementsByTagName('ul')[0],
+		groups = [console];
 	window.addEventListener('message', function (e) {
+		var ul;
 		if (e.data.clear) {
 			console.innerHTML = '';
+			groups = [console];
+		} else if ('group' in e.data) {
+			if (e.data.group) {
+				groups[0].appendChild(makeListItem('<ul></ul>', 'group', true));
+				ul = groups[0].getElementsByTagName('ul');
+				groups.unshift(ul[ul.length - 1]);
+			} else {
+				groups.shift();
+			}
 		} else {
-			console.appendChild(makeListItem(e.data.data, e.data.cls, e.data.isHtml));
+			groups[0].appendChild(makeListItem(e.data.data, e.data.cls, e.data.isHtml));
 		}
 	});
 };

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html><head>
+<html lang="en"><head>
 <meta charset="utf-8">
 <title>Web Playground</title>
-<meta name="viewport" content="width=device-width; initial-scale=1.0;">
+<meta name="viewport" content="width=device-width">
 <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
@@ -17,9 +17,10 @@ if (navigator.serviceWorker && !(navigator.mozApps && navigator.mozApps.installP
 }
 </script>
 <link rel="stylesheet" href="res/app.css">
-<script src="res/file.js"></script>
-<script src="res/playground.js"></script>
-<script src="res/examples.js"></script>
+<script src="res/file.js" defer></script>
+<script src="res/playground.js" defer></script>
+<script src="res/examples.js" defer></script>
+<script src="res/app.js" defer></script>
 </head><body>
 <nav>
 <button id="button-meta" class="selected">Meta</button>
@@ -54,10 +55,9 @@ if (navigator.serviceWorker && !(navigator.mozApps && navigator.mozApps.installP
 <section id="js" style="display: none;">
 <label>JS:<br><textarea class="input-js"></textarea></label>
 </section>
-<section id="document" class="page-document" style="display: none;"><iframe mozallowfullscreen="true" webkitallowfullscreen="true" allowfullscreen="true"></iframe></section>
+<section id="document" class="page-document" style="display: none;"><iframe mozallowfullscreen webkitallowfullscreen allowfullscreen allowpaymentrequest allowusermedia></iframe></section>
 <section id="console" class="page-console" style="display: none;">
 <input id="console-input">
 <ul id="console-list"></ul>
 </section>
-<script src="res/app.js"></script>
 </body></html>

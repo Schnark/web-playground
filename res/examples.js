@@ -19,23 +19,31 @@ return [{
 		'<article id="one">\n' +
 		'<h2>One</h2>\n' +
 		'<p><abbr title="abbreviation">abbr</abbr>, <b>b</b>, <cite>cite</cite>, <code>code</code>,\n' +
-		'<del>del</del>, <dfn>dfn</dfn>, <em>em</em>, <i>i</i>, <ins>ins</ins>, <kbd>kbd</kbd>,\n' +
-		'<mark>mark</mark>, <q>q</q>, <s>s</s>, <samp>samp</samp>, <small>small</small>,\n' +
-		'<strong>strong</strong>, sub<sub>sub</sub>, sup<sup>sup</sup>, <u>u</u>, <var>var</var></p>\n' +
+		'<data value="data">data</data>, <del>del</del>, <dfn>dfn</dfn>, <em>em</em>, <i>i</i>, <ins>ins</ins>,\n' +
+		'<kbd>kbd</kbd>, <mark>mark</mark>, <q>q</q>,\n' +
+		'<ruby>r<rp> (</rp><rt>R</rt><rp>) </rp>u<rp> (</rp><rt>U</rt><rp>) </rp><!--\n' +
+		'-->b<rp> (</rp><rt>B</rt><rp>) </rp>y<rp> (</rp><rt>Y</rt><rp>) </rp></ruby>,\n' +
+		'<s>s</s>, <samp>samp</samp>, <small>small</small>, <strong>strong</strong>, sub<sub>sub</sub>, sup<sup>sup</sup>,\n' +
+		'<time datetime="2000-01-01">time</time>, <u>u</u>, <var>var</var></p>\n' +
 		'<p>\n' +
 		'<meter value="7" min="0" max="10">7/10</meter><br>\n' +
 		'<progress>unknown</progress><br>\n' +
 		'<progress value="0.7">70%</progress>\n' +
 		'<fieldset>\n' +
 		'<legend>Fieldset</legend>\n' +
+		'<datalist id="datalist"><option value="Suggestion"></datalist>\n' +
+		'<label>Input with suggestions: <input placeholder="placeholder" list="datalist"></label><br>\n' +
+		'<label><input type="checkbox"> Checkbox</label><br>\n' +
+		'<label><input type="radio" name="radio" checked> Radio 1</label><br>\n' +
+		'<label><input type="radio" name="radio"> Radio 2</label><br>\n' +
 		'<textarea></textarea><br>\n' +
-		'<button>Button</button><br>\n' +
 		'<select>\n' +
 		'<optgroup label="Group">\n' +
 		'<option selected>Option 1</option>\n' +
 		'<option>Option 2</option>\n' +
 		'</optgroup>\n' +
-		'</select>\n' +
+		'</select><br>\n' +
+		'<button>Button</button>\n' +
 		'</fieldset>\n' +
 		'<figure>\n' +
 		'<img src="icon-128.png" alt="Icon">\n' +
@@ -59,10 +67,18 @@ return [{
 		'<tr><th>Foot 1</th><th>Foot 2</th><th>Foot 3</th></tr>\n' +
 		'</tfoot>\n' +
 		'</table>\n' +
+		'<hr>\n' +
+		'<blockquote>Blockquote</blockquote>\n' +
+		'<hr>\n' +
+		'<ol><li>One</li><li>Two</li><li>Three</li></ol>\n' +
+		'<hr>\n' +
+		'<dl><dt>Term</dt><dd>Description</dd></dl>\n' +
 		'</article>\n' +
 		'\n' +
 		'<aside id="three">\n' +
 		'<p>Aside</p>\n' +
+		'<details open><summary>Summary</summary>\n' +
+		'<p>Details</p></details>\n' +
 		'</aside>\n' +
 		'\n' +
 		'<footer>\n' +
@@ -93,6 +109,43 @@ return [{
 		'ul {\n' +
 		' line-height: 2;\n' +
 		'}'
+/*}, {
+	title: 'Audio, Video'
+	//TODO
+}, {
+	title: 'Dialog'
+	//TODO
+}, {
+	title: 'Shadow DOM'
+	//TODO (see MDN <slot>, including <template> and custom elements)*/
+}, {
+	title: 'menuitem (deprecated)',
+	html:
+		'<div contextmenu="contextmenu">\n' +
+		'This div has a contextmenu.\n' +
+		'</div>\n' +
+		'<menu type="context" id="contextmenu">\n' +
+		' <menuitem type="command" label="Command" id="mi1"></menuitem>\n' +
+		' <menuitem type="checkbox" label="Checkbox" id="mi2"></menuitem>\n' +
+		' <menuitem type="radio" radiogroup="group" checked label="Radio 1" id="mi3"></menuitem>\n' +
+		' <menuitem type="radio" radiogroup="group" label="Radio 2" id="mi4"></menuitem>\n' +
+		'</menu>',
+	css:
+		'div {\n' +
+		' border: 1px dotted green;\n' +
+		' height: 5em;\n' +
+		'}',
+	js:
+		'function log () {\n' +
+		' console.log(this.id);\n' +
+		'}\n' +
+		'function logOnClick (ids) {\n' +
+		' var i;\n' +
+		' for (i = 0; i < ids.length; i++) {\n' +
+		'  document.getElementById(ids[i]).onclick = log;\n' +
+		' }\n' +
+		'}\n' +
+		'logOnClick([\'mi1\', \'mi2\', \'mi3\', \'mi4\']);'
 }, {
 	title: 'SVG',
 	html:
@@ -191,7 +244,10 @@ return [{
 		'\n' +
 		'bind(document.getElementById(\'pointer\'), [\n' +
 		' \'mousedown\', \'mousemove\', \'mouseup\',\n' +
-		' \'click\', \'dblclick\', \'contextmenu\'\n' +
+		' \'mouseenter\', \'mouseleave\',\n' +
+		' \'mouseover\', \'mouseout\',\n' +
+		' \'click\', \'dblclick\', \'auxclick\',\n' +
+		' \'contextmenu\'\n' +
 		'], onMouse);\n' +
 		'bind(document.getElementById(\'pointer\'), [\n' +
 		' \'touchstart\', \'touchmove\', \'touchend\',\n' +
@@ -201,7 +257,9 @@ return [{
 		' \'keydown\', \'keypress\', \'keyup\'\n' +
 		'], onKey);\n' +
 		'bind(document.getElementById(\'key\'), [\n' +
-		' \'blur\', \'focus\'\n' +
+		' \'change\', \'input\', \'select\',\n' +
+		' \'blur\', \'focus\',\n' +
+		' \'cut\', \'copy\', \'paste\'\n' +
 		'], onOther);'
 }, {
 	title: 'Device Events',
@@ -245,6 +303,37 @@ return [{
 		'window.addEventListener(\'offline\', function () {\n' +
 		' document.getElementById(\'online\').textContent = \'offline\';\n' +
 		'});'
+/*}, {
+	title: 'Drag and Drop'
+	//TODO*/
+}, {
+	title: 'Console',
+	js:
+		'var array = [\'a\', \'b\', \'c\', \'d\'];\n' +
+		'var object = {a: [1, 2], b: [2, 3], c: [3, 4]};\n' +
+		'console.clear();\n' +
+		'console.time(\'Time\');\n' +
+		'console.log(\'Log\');\n' +
+		'console.info(\'Info\');\n' +
+		'console.warn(\'Warn\');\n' +
+		'console.error(\'Error\');\n' +
+		'console.assert(true);\n' +
+		'console.assert(false);\n' +
+		'console.count(\'Count\');\n' +
+		'console.count(\'Count\');\n' +
+		'console.log(\'Screen object: %o\', screen);\n' +
+		'console.group(\'Level 1\');\n' +
+		'console.log(\'Level 1-1\');\n' +
+		'console.log(\'Level 1-2\');\n' +
+		'console.groupCollapsed(\'Level 2\');\n' +
+		'console.log(\'Level 2-1\');\n' +
+		'console.groupEnd();\n' +
+		'console.log(\'Level 1-3\');\n' +
+		'console.groupEnd();\n' +
+		'console.table(array);\n' +
+		'console.table(object);\n' +
+		'console.table(object, [1]);\n' +
+		'console.timeEnd(\'Time\');'
 }, {
 	title: 'getUserMedia',
 	html: '<video id="output"></video>',
@@ -311,6 +400,9 @@ return [{
 		' alert(\'Error\');\n' +
 		'};\n' +
 		'xhr.send();'
+/*}, {
+	title: 'Webgl'
+	//TODO*/
 }, {
 	title: '3D Transforms with Animation',
 	html:

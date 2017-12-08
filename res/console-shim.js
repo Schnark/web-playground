@@ -5,7 +5,7 @@
 "use strict";
 
 function escape (str) {
-	return str
+	return String(str)
 		.replace(/&/g, '&amp;')
 		.replace(/</g, '&lt;')
 		.replace(/>/g, '&gt;')
@@ -229,8 +229,12 @@ var dump = (function () {
 				keys.sort();
 				for (i = 0; i < keys.length; i++) {
 					key = keys[i];
-					val = map[key];
-					ret.push(dump.parse(key, 'key') + ': ' + dump.parse(val, undefined, stack));
+					try {
+						val = map[key];
+						ret.push(dump.parse(key, 'key') + ': ' + dump.parse(val, undefined, stack));
+					} catch (e) {
+						ret.push(dump.parse(key, 'key') + ': [Restricted]');
+					}
 				}
 				dump.down();
 				return join('{', ret, '}');
@@ -291,17 +295,22 @@ var dump = (function () {
 /*jscs: enable disallowDanglingUnderscores*/
 
 function formatOne (o, format) {
-	if (!format && typeof o === 'object') {
-		format = '%o';
+	if (!format) {
+		format = typeof o === 'object' ? '%o' : '%s';
 	}
 	switch (format) {
 	case '%o':
 	case '%O':
 		return dump.parse(o);
-	case '%c':
-		return '';
-	default: //FIXME
+	case '%d':
+	case '%i':
+		return String(parseInt(o, 10));
+	case '%f':
+		return String(parseFloat(o));
+	case '%s':
 		return String(o);
+	case '%c': //TODO implement CSS?
+		return '';
 	}
 }
 
@@ -309,7 +318,7 @@ function format (arg0) {
 	var out = [], i, args = arguments;
 	i = 0;
 	if (typeof arg0 === 'string') {
-		arg0 = arg0.replace(/%[oOcsdif]/g, function (format) { //FIXME
+		arg0 = arg0.replace(/%[oOcsdif]/g, function (format) {
 			if (i === args.length - 1) {
 				return format;
 			}
@@ -329,6 +338,8 @@ function Console (send) {
 	this.send = send;
 	this.console = window.console || {};
 	this.timers = {};
+	this.labels = {};
+	this.groupCount = 0;
 }
 
 Console.prototype.sendClear = function () {
@@ -345,11 +356,24 @@ Console.prototype.sendItem = function (data, cls, isHtml) {
 	});
 };
 
-//FIXME count, dir, dirxml, group, groupCollapsed, groupEnd, profile, profileEnd, timeStamp, trace
+Console.prototype.sendGroup = function (open) {
+	this.send({
+		group: open
+	});
+};
+
+//TODO (or not): profile, profileEnd, timeStamp, trace
 
 Console.prototype.assert = function (cond) {
+	var args;
 	if (!cond) {
-		this.log.apply(this.console, [].slice.apply(arguments, 1));
+		args = [].slice.call(arguments, 1);
+		if (typeof args[0] === 'string') {
+			args[0] = 'Assertion failed: ' + args[0];
+		} else {
+			args.unshift('Assertion failed');
+		}
+		this.sendItem(format.apply(null, args), 'error');
 	}
 	if (this.console.assert) {
 		this.console.assert.apply(this.console, arguments);
@@ -357,23 +381,34 @@ Console.prototype.assert = function (cond) {
 };
 
 Console.prototype.clear = function () {
+	this.groupCount = 0;
 	this.sendClear();
 	if (this.console.clear) {
 		this.console.clear.apply(this.console, arguments);
 	}
 };
 
-Console.prototype.log = function () {
-	this.sendItem(format.apply(null, arguments));
-	if (this.console.log) {
-		this.console.log.apply(this.console, arguments);
+Console.prototype.count = function (label) { //only supported with argument
+	var c = this.labels[label] || 0;
+	c++;
+	this.labels[label] = c;
+	this.sendItem(label + ': ' + c, 'info');
+	if (this.console.count) {
+		this.console.count.apply(this.console, arguments);
 	}
 };
 
-Console.prototype.info = function () {
-	this.sendItem(format.apply(null, arguments), 'info');
-	if (this.console.info) {
-		this.console.info.apply(this.console, arguments);
+Console.prototype.dir = function (o) {
+	this.sendItem(formatOne(o));
+	if (this.console.dir) {
+		this.console.dir.apply(this.console, arguments);
+	}
+};
+
+Console.prototype.dirxml = function () {
+	this.sendItem(format.apply(null, arguments));
+	if (this.console.dirxml) {
+		this.console.dirxml.apply(this.console, arguments);
 	}
 };
 
@@ -384,21 +419,81 @@ Console.prototype.error = function () {
 	}
 };
 
-Console.prototype.warn = function () {
-	this.sendItem(format.apply(null, arguments), 'warn');
-	if (this.console.warn) {
-		this.console.warn.apply(this.console, arguments);
+Console.prototype.group = function () {
+	this.groupCount++;
+	this.sendGroup(true);
+	this.sendItem(format.apply(null, arguments));
+	if (this.console.group) {
+		this.console.group.apply(this.console, arguments);
 	}
 };
 
-Console.prototype.table = function (data) { //FIXME columns
-	var html = [], i;
-	for (i in data) {
-		if (Object.prototype.hasOwnProperty.call(data, i)) {
-			html.push('<tr><td>' + i + '</td><td>' + escape(formatOne(data[i])) + '</td></tr>');
+Console.prototype.groupCollapsed = function () {
+	this.groupCount++;
+	this.sendGroup(true);
+	this.sendItem(format.apply(null, arguments));
+	if (this.console.groupCollapsed) {
+		this.console.groupCollapsed.apply(this.console, arguments);
+	}
+};
+
+Console.prototype.groupEnd = function () {
+	if (this.groupCount) {
+		this.groupCount--;
+		this.sendGroup(false);
+	}
+	if (this.console.groupEnd) {
+		this.console.groupEnd.apply(this.console, arguments);
+	}
+};
+
+Console.prototype.info = function () {
+	this.sendItem(format.apply(null, arguments), 'info');
+	if (this.console.info) {
+		this.console.info.apply(this.console, arguments);
+	}
+};
+
+Console.prototype.log = function () {
+	this.sendItem(format.apply(null, arguments));
+	if (this.console.log) {
+		this.console.log.apply(this.console, arguments);
+	}
+};
+
+Console.prototype.table = function (data, columns) {
+	var html = [], key, column, i;
+	for (key in data) {
+		if (Object.prototype.hasOwnProperty.call(data, key)) {
+			if (!columns) {
+				columns = [];
+				if (typeof data[key] === 'object') {
+					for (column in data[key]) {
+						if (Object.prototype.hasOwnProperty.call(data[key], column)) {
+							columns.push(column);
+						}
+					}
+				}
+			}
+			html.push('<tr><th>' + escape(key) + '</th>');
+			if (columns.length) {
+				for (i = 0; i < columns.length; i++) {
+					html.push('<td>' + escape(formatOne(data[key][columns[i]])) + '</td>');
+				}
+			} else {
+				html.push('<td>' + escape(formatOne(data[key])) + '</td>');
+			}
+			html.push('</tr>');
 		}
 	}
-	html = '<table><tr><th>(index)</th><th>value</th></tr>' + html.join('') + '</table>';
+	html = '<table>' +
+		'<tr><th>(index)</th>' +
+		(columns.length ? columns.map(function (column) {
+			return '<th>' + escape(column) + '</th>';
+		}).join('') : '<th>(value)</th>') +
+		'</tr>' +
+		html.join('') +
+		'</table>';
 	this.sendItem(html, null, true);
 	if (this.console.table) {
 		this.console.table.apply(this.console, arguments);
@@ -406,11 +501,11 @@ Console.prototype.table = function (data) { //FIXME columns
 };
 
 Console.prototype.time = function (name) {
-	this.timers[name] = Date.now();
-	this.sendItem('Start timer ' + name);
+	this.sendItem('Start timer ' + name, 'info');
 	if (this.console.time) {
 		this.console.time.apply(this.console, arguments);
 	}
+	this.timers[name] = Date.now();
 };
 
 Console.prototype.timeEnd = function (name) {
@@ -419,6 +514,13 @@ Console.prototype.timeEnd = function (name) {
 	}
 	if (this.console.timeEnd) {
 		this.console.timeEnd.apply(this.console, arguments);
+	}
+};
+
+Console.prototype.warn = function () {
+	this.sendItem(format.apply(null, arguments), 'warn');
+	if (this.console.warn) {
+		this.console.warn.apply(this.console, arguments);
 	}
 };
 
