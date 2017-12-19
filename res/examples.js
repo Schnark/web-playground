@@ -332,7 +332,7 @@ return [{
 		'console.groupEnd();\n' +
 		'console.table(array);\n' +
 		'console.table(object);\n' +
-		'console.table(object, [1]);\n' +
+		'console.table(object, [\'1\']);\n' +
 		'console.timeEnd(\'Time\');'
 }, {
 	title: 'getUserMedia',

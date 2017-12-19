@@ -546,10 +546,19 @@ window.addEventListener('message', function (e) {
 	}
 });
 
+function scrollIntoView (e) {
+	var el;
+	e.preventDefault();
+	el = document.getElementById(e.target.href.replace(/.*#/, ''));
+	if (el) {
+		el.scrollIntoView();
+	}
+}
+
 function fixHashLinks () {
 	var hashLinks = document.querySelectorAll('[href^="#"]'), i;
 	for (i = 0; i < hashLinks.length; i++) {
-		hashLinks[i].setAttribute('href', document.location + hashLinks[i].getAttribute('href'));
+		hashLinks[i].addEventListener('click', scrollIntoView);
 	}
 }
 
