@@ -228,7 +228,7 @@ return [{
 		'}\n' +
 		'\n' +
 		'function onKey (e) {\n' +
-		' log(e.type + \': \' + e.which);\n' +
+		' log(e.type + \': \' + e.key + \' (\' + e.which + \')\');\n' +
 		'}\n' +
 		'\n' +
 		'function onOther (e) {\n' +
