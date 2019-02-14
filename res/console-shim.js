@@ -478,7 +478,7 @@ Console.prototype.table = function (data, columns) {
 			html.push('<tr><th>' + escape(key) + '</th>');
 			if (columns.length) {
 				for (i = 0; i < columns.length; i++) {
-					html.push('<td>' + escape(formatOne(data[key][columns[i]])) + '</td>');
+					html.push('<td>' + (data[key] ? escape(formatOne(data[key][columns[i]])) : '') + '</td>');
 				}
 			} else {
 				html.push('<td>' + escape(formatOne(data[key])) + '</td>');

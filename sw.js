@@ -3,7 +3,7 @@
 "use strict";
 
 var PREFIX = 'web-playground',
-	VERSION = '1.7',
+	VERSION = '1.8',
 	FILES = [
 		'index.html',
 		'res/app.css',

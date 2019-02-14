@@ -296,10 +296,10 @@ return [{
 		'});\n' +
 		'window.addEventListener(\'devicelight\', function (e) {\n' +
 		' document.getElementById(\'light\').textContent = e.value;\n' +
-		'});' +
+		'});\n' +
 		'window.addEventListener(\'online\', function () {\n' +
 		' document.getElementById(\'online\').textContent = \'online\';\n' +
-		'});' +
+		'});\n' +
 		'window.addEventListener(\'offline\', function () {\n' +
 		' document.getElementById(\'online\').textContent = \'offline\';\n' +
 		'});'
