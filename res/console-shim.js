@@ -398,6 +398,21 @@ Console.prototype.count = function (label) { //only supported with argument
 	}
 };
 
+Console.prototype.countReset = function (label) {
+	this.labels[label] = 0;
+	//this.sendItem(label + ': 0', 'info');
+	if (this.console.countReset) {
+		this.console.countReset.apply(this.console, arguments);
+	}
+};
+
+Console.prototype.debug = function () {
+	this.sendItem(format.apply(null, arguments));
+	if (this.console.debug) {
+		this.console.debug.apply(this.console, arguments);
+	}
+};
+
 Console.prototype.dir = function (o) {
 	this.sendItem(formatOne(o));
 	if (this.console.dir) {
@@ -510,10 +525,22 @@ Console.prototype.time = function (name) {
 
 Console.prototype.timeEnd = function (name) {
 	if (this.timers[name]) {
+		//spec suggests "info" level, but allows implementation to vary
 		this.sendItem('Stop timer ' + name + ': ' + (Date.now() - this.timers[name]) + 'ms');
 	}
 	if (this.console.timeEnd) {
 		this.console.timeEnd.apply(this.console, arguments);
+	}
+};
+
+Console.prototype.timeLog = function (name) {
+	var args, duration;
+	duration = name + ': ' + (Date.now() - this.timers[name]) + 'ms';
+	args = [].slice.call(arguments, 1);
+	args.unshift(duration);
+	this.sendItem(format.apply(null, args));
+	if (this.console.timeLog) {
+		this.console.timeLog.apply(this.console, arguments);
 	}
 };
 
@@ -524,14 +551,13 @@ Console.prototype.warn = function () {
 	}
 };
 
-Console.prototype.debug = Console.prototype.log;
 Console.prototype.exception = Console.prototype.error;
 
 function send (data) {
 	window.parent.postMessage(data, '*');
 }
 
-window.console = new Console (send);
+window.console = new Console(send);
 
 window.onerror = function (error) { //better compatibility than addEventListener
 	console.error(error);
