@@ -156,14 +156,31 @@ return [{
 }, {
 	title: 'Math',
 	html:
-		'<math><mfrac><mrow>\n' +
-		' <mrow>\n' +
-		'  <mo>−</mo><mi>b</mi></mrow>\n' +
-		'  <mi>±</mi>\n' +
-		'  <msqrt><mrow><msup><mi>b</mi><mn>2</mn></msup><mo>−</mo><mn>4ac</mn></mrow></msqrt>\n' +
-		' </mrow>\n' +
-		' <mn>2a</mn>\n' +
-		'</mfrac></math>'
+		'<math><mrow>\n' +
+		' <msub>\n' +
+		'  <mi>x</mi>\n' +
+		'  <mrow>\n' +
+		'   <mn>1</mn><mo>,</mo><mn>2</mn>\n' +
+		'  </mrow>\n' +
+		' </msub>\n' +
+		' <mo>=</mo>\n' +
+		' <mfrac>\n' +
+		'  <mrow>\n' +
+		'   <mrow>\n' +
+		'    <mo>−</mo><mi>b</mi>\n' +
+		'   </mrow>\n' +
+		'   <mo>±</mo>\n' +
+		'   <msqrt>\n' +
+		'    <msup><mi>b</mi><mn>2</mn></msup>\n' +
+		'    <mo>−</mo>\n' +
+		'    <mrow><mn>4</mn><mi>a</mi><mi>c</mi></mrow>\n' +
+		'   </msqrt>\n' +
+		'  </mrow>\n' +
+		'  <mrow>\n' +
+		'   <mn>2</mn><mi>a</mi>\n' +
+		'  </mrow>\n' +
+		' </mfrac>\n' +
+		'</mrow></math>'
 }, {
 	title: 'Canvas',
 	html: '<canvas id="canvas"></canvas>',
